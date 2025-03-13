@@ -1,0 +1,12 @@
+__pycache__
+venv
+subp.py
+sender.py
+script.py
+receiver.py
+error.txt
+process.py
+output.txt
+audioSecond.txt
+audioSecond.mp3
+audio.mp3

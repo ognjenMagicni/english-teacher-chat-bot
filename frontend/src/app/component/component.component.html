@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="section">
+    <h1 class="title">Audio Recorder</h1>
+    <div class="buttons">
+      <button class="button is-primary" (click)="startRecording()" [disabled]="isRecording">
+        Start Recording
+      </button>
+      <button class="button is-danger" (click)="stopRecording()" [disabled]="!isRecording">
+        Stop Recording
+      </button>
+      <button class="button is-link" (click)="downloadRecording()" [disabled]="!audioUrl">
+        Download Recording
+      </button>
+    </div>
+    <div *ngIf="audioUrl" class="box">
+      <p>Recorded Audio:</p>
+      <audio controls [src]="audioUrl"></audio>
+    </div>
+  </div>
+</div>
+
+<div class="container box">
+  <p>{{message}}</p>
+</div>
