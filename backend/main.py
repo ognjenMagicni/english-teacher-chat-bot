@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, BackgroundTasks
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from confluent_kafka import Producer, Consumer
 import time
@@ -10,10 +10,9 @@ conf = {
 producer = Producer(conf)
 
 conf = {'bootstrap.servers': 'localhost:9092',
-        'group.id': 'aa',
-        'auto.offset.reset': 'smallest'}
-consumer = Consumer(conf)
-consumer.subscribe(["bottopic"])
+        'group.id': f'groupmain-{time.time()}',
+        'auto.offset.reset': 'latest'}
+
 
 app = FastAPI()
 
@@ -40,6 +39,7 @@ async def runBot():
 
 @app.post("/sendAudio")
 async def upload_audio(file: UploadFile = File(...)):
+
     consumer = Consumer(conf)
     consumer.subscribe(["bottopic"])
     print("main.py sendAudio: started")
@@ -63,6 +63,7 @@ async def upload_audio(file: UploadFile = File(...)):
             continue
         else:
             message = msg.value().decode('utf-8')
+            print('main.py sendAudio: message:',message)
             consumer.close()
             return message
     consumer.close()
